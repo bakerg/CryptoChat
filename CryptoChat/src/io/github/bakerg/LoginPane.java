@@ -8,6 +8,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LoginPane {
 
@@ -72,6 +74,14 @@ public class LoginPane {
 		frmLoginCryptochat.getContentPane().add(btnCreate);
 		
 		JButton btnLogin = new JButton("Login");
+		btnLogin.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(passwordField.getPassword() != null){
+					System.out.println(Crypto.md5(new String(passwordField.getPassword())));
+				}
+			}
+		});
 		btnLogin.setBounds(443, 106, 117, 29);
 		frmLoginCryptochat.getContentPane().add(btnLogin);
 		
