@@ -70,6 +70,15 @@ public class LoginPane {
 		passwordField.setColumns(10);
 		
 		JButton btnCreate = new JButton("Create");
+		btnCreate.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(passwordField.getPassword() != null && usernameField.getText() != null){
+					Network.connect("localhost");
+					Network.createAccount(usernameField.getText(), Crypto.md5(new String(passwordField.getPassword())));
+				}
+			}
+		});
 		btnCreate.setBounds(118, 106, 117, 29);
 		frmLoginCryptochat.getContentPane().add(btnCreate);
 		
@@ -77,7 +86,7 @@ public class LoginPane {
 		btnLogin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(passwordField.getPassword() != null){
+				if(passwordField.getPassword() != null && usernameField.getText() != null){
 					Network.connect("localhost");
 					Network.login(usernameField.getText(), Crypto.md5(new String(passwordField.getPassword())));
 				}

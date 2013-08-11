@@ -38,9 +38,11 @@ public class LoginHandler {
 	
 	public static boolean checkUsername(PacketCreateAccount login){
 		ResultSet result;
+		System.out.println("Checking for matches");
 		try {
 			result = statement.executeQuery("SELECT * FROM accounts WHERE username = '"+login.username+"';");
-			if(result.isBeforeFirst()){
+			if(result.next() == false){
+				System.out.println("name is free");
 				return true;
 			}
 		} catch (SQLException e) {
@@ -52,7 +54,9 @@ public class LoginHandler {
 	
 	public static boolean addUser(PacketCreateAccount login){
 		try {
-			return statement.execute("INSERT INTO accounts(username, password) VALUES ('"+login.username+"','"+login.passwordHash+"'");
+			statement.execute("INSERT INTO accounts(username, password) VALUES ('"+login.username+"','"+login.passwordHash+"');");
+			System.out.println("Created account for user "+login.username);
+			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
