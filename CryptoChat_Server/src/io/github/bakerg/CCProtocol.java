@@ -1,25 +1,27 @@
 package io.github.bakerg;
 
+import io.github.bakerg.packets.PacketCreateAccount;
+import io.github.bakerg.packets.PacketCreateAccountResponse;
+import io.github.bakerg.packets.PacketLogin;
+import io.github.bakerg.packets.PacketLoginResponse;
+
 public class CCProtocol {
-	public static String handleInput(String input){
-		if(input == null){
-			return "0";
-		}
-		else if(input.startsWith("1")){
-			if(LoginHandler.checkLogin(input)){
-				return "Login Successful!";
+	public static Object handleInput(Object object){
+		if(object instanceof PacketLogin){
+			System.out.println("Ready to check login");
+			if(LoginHandler.checkLogin((PacketLogin)object)){
+				return new PacketLoginResponse(true);
 			}
-			return "Login Failed";
+			return new PacketLoginResponse(false);
 		}
-		else if(input.startsWith("2")){
-			if(LoginHandler.checkUsername(input)){
-				if(LoginHandler.addUser(input)){
-					return "Successfully Created account";
+		else if(object instanceof PacketCreateAccount){
+			if(LoginHandler.checkUsername((PacketCreateAccount)object)){
+				if(LoginHandler.addUser((PacketCreateAccount)object)){
+					return new PacketCreateAccountResponse(true);
 				}
-				return "Account creation failed!";
 			}
-			return "Username taken!";
+			return new PacketLoginResponse(false);
 		}
-		return "0";
+		return null;
 	}
 }

@@ -1,5 +1,8 @@
 package io.github.bakerg;
 
+import io.github.bakerg.packets.PacketCreateAccount;
+import io.github.bakerg.packets.PacketLogin;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -18,13 +21,14 @@ public class LoginHandler {
 			e.printStackTrace();
 		}
 	}
-	public static boolean checkLogin(String input){
+	public static boolean checkLogin(PacketLogin login){
 		ResultSet result;
-		String[] login = StringHandler.parseInput(input);
 		try {
-			result = statement.executeQuery("SELECT password FROM accounts WHERE username = '"+login[1]+"';");
+			result = statement.executeQuery("SELECT password FROM accounts WHERE username = '"+login.username+"';");
 			result.first();
-			if(login[2].equals(result.getString(1))){
+			System.out.println(result.getString(1));
+			if(login.passwordHash.equals(result.getString(1))){
+				System.out.println(true);
 				return true;
 			}
 		} catch (SQLException e) {
@@ -34,11 +38,10 @@ public class LoginHandler {
 		return false;
 	}
 	
-	public static boolean checkUsername(String input){
+	public static boolean checkUsername(PacketCreateAccount login){
 		ResultSet result;
-		String[] login = StringHandler.parseInput(input);
 		try {
-			result = statement.executeQuery("SELECT * FROM accounts WHERE username = '"+login[1]+"';");
+			result = statement.executeQuery("SELECT * FROM accounts WHERE username = '"+login.username+"';");
 			if(result == null){
 				return true;
 			}
@@ -49,11 +52,9 @@ public class LoginHandler {
 		return false;
 	}
 	
-	public static boolean addUser(String input){
-		ResultSet result;
-		String[] login = StringHandler.parseInput(input);
+	public static boolean addUser(PacketCreateAccount login){
 		try {
-			return statement.execute("INSERT INTO accounts(username, password) VALUES ('"+login[1]+"','"+login[2]+"'");
+			return statement.execute("INSERT INTO accounts(username, password) VALUES ('"+login.username+"','"+login.passwordHash+"'");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -15,17 +15,6 @@ import org.mariadb.jdbc.Driver;
 public class Main {
 
 	public static void main(String[] args) {
-		Connection connection = null;
-		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost/im", "default", "");
-			Statement statement = connection.createStatement(); 
-			ResultSet result = statement.executeQuery("SELECT password FROM accounts WHERE username = 'bakerg';");
-			result.first();
-			System.out.println(result.getString(1));
-		} catch (SQLException e) {
-			System.out.println("Connection to sql server failed!");
-			e.printStackTrace();
-		}
 		LoginHandler.connectToDb();
 		ServerSocket serverSocket = null;
 		try {
