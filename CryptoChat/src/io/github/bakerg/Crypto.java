@@ -3,7 +3,6 @@ package io.github.bakerg;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 public class Crypto {
 	private static MessageDigest md;
@@ -19,7 +18,6 @@ public class Crypto {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(Arrays.toString(outbytes));
 		return bytesToHex(outbytes);
 	}
 	

@@ -17,10 +17,11 @@ public class Main {
 		}
 		
 		Socket clientSocket = null;
+		System.out.println("SERVER STARTED SUCCESSFULLY");
 		while(true){
 			try {
-				System.out.println("Here");
 				clientSocket = serverSocket.accept();
+				System.out.println("Connection from "+clientSocket.getInetAddress());
 				new ServerThread(clientSocket).run();
 			} catch (IOException e) {
 				System.out.println("Failed to accept on port 1234");

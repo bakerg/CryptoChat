@@ -16,7 +16,6 @@ public class ServerThread implements Runnable{
 	public void run() {
 		ObjectOutputStream out = null;
 		ObjectInputStream in = null;
-		System.out.println("New thread started!");
 		Object request;
 		try {
 			out = new ObjectOutputStream(this.socket.getOutputStream());
@@ -28,7 +27,6 @@ public class ServerThread implements Runnable{
 						if(request instanceof PacketCloseConnection){
 							break;
 						}
-						System.out.println(request.toString());
 						out.writeObject(CCProtocol.handleInput(request));
 					}
 				}catch (java.io.EOFException e){}

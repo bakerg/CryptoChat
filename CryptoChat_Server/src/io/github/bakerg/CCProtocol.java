@@ -8,7 +8,6 @@ import io.github.bakerg.packets.PacketLoginResponse;
 public class CCProtocol {
 	public static Object handleInput(Object object){
 		if(object instanceof PacketLogin){
-			System.out.println("Ready to check login");
 			if(LoginHandler.checkLogin((PacketLogin)object)){
 				return new PacketLoginResponse(true);
 			}

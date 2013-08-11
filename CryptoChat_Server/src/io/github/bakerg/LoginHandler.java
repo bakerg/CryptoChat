@@ -25,11 +25,10 @@ public class LoginHandler {
 		ResultSet result;
 		try {
 			result = statement.executeQuery("SELECT password FROM accounts WHERE username = '"+login.username+"';");
-			if(!result.isBeforeFirst()){
-				result.first();
-				if(login.passwordHash.equals(result.getString(1))){
-					return true;
-				}
+			result.first();
+			if(login.passwordHash.equals(result.getString(1))){
+				System.out.println("User "+login.username+" logged in!");
+				return true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

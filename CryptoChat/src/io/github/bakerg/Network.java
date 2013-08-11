@@ -30,17 +30,13 @@ public class Network {
 	}
 	public static boolean login(String username, String password){
 		try {
-			System.out.println(password);
 			out.writeObject(new PacketLogin(username, password));
 			Object response;
 			while(true){
 				response = in.readObject();
 				if(response != null){
-					System.out.println("Read an object!");
 					if(response instanceof PacketLoginResponse){
-						System.out.println("It's a LoginResponse!");
 						PacketLoginResponse loginResponse = (PacketLoginResponse)response;
-						System.out.println(loginResponse.loginSuccessful);
 						if(loginResponse.loginSuccessful){
 							System.out.println("Login Successful!");
 							out.writeObject(new PacketCloseConnection());

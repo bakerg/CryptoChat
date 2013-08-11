@@ -78,9 +78,8 @@ public class LoginPane {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(passwordField.getPassword() != null){
-					System.out.println(Crypto.md5(new String(passwordField.getPassword())));
 					Network.connect("localhost");
-					System.out.println(Network.login(usernameField.getText(), Crypto.md5(new String(passwordField.getPassword()))));
+					Network.login(usernameField.getText(), Crypto.md5(new String(passwordField.getPassword())));
 				}
 			}
 		});
