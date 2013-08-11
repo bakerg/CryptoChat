@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.math.BigInteger;
 
 public class Crypto {
 	private static MessageDigest md;

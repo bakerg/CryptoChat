@@ -27,7 +27,8 @@ public class LoginHandler {
 			result = statement.executeQuery("SELECT password FROM accounts WHERE username = '"+login.username+"';");
 			result.first();
 			System.out.println(result.getString(1));
-			if(login.passwordHash.equals(result.getString(1))){
+			System.out.println("Result: "+result.getString(1)+" Hash: "+login.passwordHash.toString() +" Are they the same?: "+login.passwordHash.equalsIgnoreCase(result.getString(1)));
+			if(login.passwordHash.contains(result.getString(1))){
 				System.out.println(true);
 				return true;
 			}

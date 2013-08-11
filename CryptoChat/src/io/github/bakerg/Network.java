@@ -1,15 +1,12 @@
 package io.github.bakerg;
 
+import io.github.bakerg.packets.PacketCloseConnection;
 import io.github.bakerg.packets.PacketLogin;
 import io.github.bakerg.packets.PacketLoginResponse;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -33,16 +30,26 @@ public class Network {
 	}
 	public static boolean login(String username, String password){
 		try {
+			System.out.println(password);
 			out.writeObject(new PacketLogin(username, password));
 			Object response;
-			response = in.readObject();
-			if(response != null){
-				if(response instanceof PacketLoginResponse){
-					PacketLoginResponse loginResponse = (PacketLoginResponse)response;
-					if(loginResponse.loginSuccessful){
-						System.out.println("Login Successful!");
-					}else{
-						System.out.println("Login Failed!");
+			while(true){
+				response = in.readObject();
+				if(response != null){
+					System.out.println("Read an object!");
+					if(response instanceof PacketLoginResponse){
+						System.out.println("It's a LoginResponse!");
+						PacketLoginResponse loginResponse = (PacketLoginResponse)response;
+						System.out.println(loginResponse.loginSuccessful);
+						if(loginResponse.loginSuccessful){
+							System.out.println("Login Successful!");
+							out.writeObject(new PacketCloseConnection());
+							break;
+						}else{
+							System.out.println("Login Failed!");
+							out.writeObject(new PacketCloseConnection());
+							break;
+						}
 					}
 				}
 			}

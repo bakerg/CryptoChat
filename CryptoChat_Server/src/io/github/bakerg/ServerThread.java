@@ -1,5 +1,7 @@
 package io.github.bakerg;
 
+import io.github.bakerg.packets.PacketCloseConnection;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -23,6 +25,9 @@ public class ServerThread implements Runnable{
 				try{
 					request = in.readObject();
 					if(request != null){
+						if(request instanceof PacketCloseConnection){
+							break;
+						}
 						System.out.println(request.toString());
 						out.writeObject(CCProtocol.handleInput(request));
 					}
