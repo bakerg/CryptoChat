@@ -11,6 +11,15 @@ public class CCProtocol {
 			}
 			return "Login Failed";
 		}
+		else if(input.startsWith("2")){
+			if(LoginHandler.checkUsername(input)){
+				if(LoginHandler.addUser(input)){
+					return "Successfully Created account";
+				}
+				return "Account creation failed!";
+			}
+			return "Username taken!";
+		}
 		return "0";
 	}
 }

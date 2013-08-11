@@ -26,7 +26,7 @@ public class Main {
 			System.out.println("Connection to sql server failed!");
 			e.printStackTrace();
 		}
-		
+		LoginHandler.connectToDb();
 		ServerSocket serverSocket = null;
 		try {
 			serverSocket = new ServerSocket(1234);
