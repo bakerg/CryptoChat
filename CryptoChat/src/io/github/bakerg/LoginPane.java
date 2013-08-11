@@ -16,6 +16,7 @@ public class LoginPane {
 	private JFrame frmLoginCryptochat;
 	private JTextField usernameField;
 	private JPasswordField passwordField;
+	private static final String serverAddress = ""; //Set the server address here
 
 	/**
 	 * Launch the application.
@@ -74,7 +75,7 @@ public class LoginPane {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(passwordField.getPassword() != null && usernameField.getText() != null){
-					Network.connect("localhost");
+					Network.connect(serverAddress);
 					Network.createAccount(usernameField.getText(), Crypto.md5(new String(passwordField.getPassword())));
 				}
 			}
@@ -87,7 +88,7 @@ public class LoginPane {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(passwordField.getPassword() != null && usernameField.getText() != null){
-					Network.connect("localhost");
+					Network.connect(serverAddress);
 					Network.login(usernameField.getText(), Crypto.md5(new String(passwordField.getPassword())));
 				}
 			}
