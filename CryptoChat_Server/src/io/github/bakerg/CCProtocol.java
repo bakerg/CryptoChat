@@ -10,9 +10,9 @@ public class CCProtocol {
 	public static Object handleInput(Object object){
 		if(object instanceof PacketEncrypted){
 			PacketEncrypted enpack = (PacketEncrypted)object;
-			handleInput(Crypto.deserialize(Crypto.RSADecrypt(enpack.contents)));
+			return (handleInput(Crypto.deserialize(Crypto.RSADecrypt(enpack.contents))));
 		}
-		if(object instanceof PacketLogin){
+		else if(object instanceof PacketLogin){
 			if(LoginHandler.checkLogin((PacketLogin)object)){
 				return new PacketLoginResponse(true);
 			}

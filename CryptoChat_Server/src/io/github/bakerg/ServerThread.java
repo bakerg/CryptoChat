@@ -33,6 +33,7 @@ public class ServerThread implements Runnable{
 			}
 			out.close();
 			in.close();
+			System.out.println("Connection to "+socket.getInetAddress()+" closed");
 		} catch (IOException e) {
 			System.out.println("Failed to create IO streams!");
 			e.printStackTrace();
