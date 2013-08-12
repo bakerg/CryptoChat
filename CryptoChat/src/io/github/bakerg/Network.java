@@ -17,9 +17,10 @@ public class Network {
 	private static Socket socket = null;
 	private static ObjectOutputStream out = null;
 	private static ObjectInputStream in = null;
-	public static void connect(String server){
+	private static String serverAddress = "localhost";
+	public static void connect(){
 		try {
-			socket = new Socket(server, 1234);
+			socket = new Socket(serverAddress, 1234);
 			out = new ObjectOutputStream(socket.getOutputStream());
 			in = new ObjectInputStream(socket.getInputStream());
 		} catch (UnknownHostException e) {
@@ -87,5 +88,13 @@ public class Network {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public static void setAddress(String address){
+		serverAddress = address;
+	}
+	
+	public static String getAddress(){
+		return serverAddress;
 	}
 }

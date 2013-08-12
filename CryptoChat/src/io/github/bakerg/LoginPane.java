@@ -16,7 +16,6 @@ public class LoginPane {
 	private JFrame frmLoginCryptochat;
 	private JTextField usernameField;
 	private JPasswordField passwordField;
-	private static final String serverAddress = "localhost"; //Set the server address here
 
 	/**
 	 * Launch the application.
@@ -75,7 +74,7 @@ public class LoginPane {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(passwordField.getPassword() != null && usernameField.getText() != null){
-					Network.connect(serverAddress);
+					Network.connect();
 					Network.createAccount(usernameField.getText(), Crypto.md5(new String(passwordField.getPassword())));
 				}
 			}
@@ -88,7 +87,7 @@ public class LoginPane {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(passwordField.getPassword() != null && usernameField.getText() != null){
-					Network.connect(serverAddress);
+					Network.connect();
 					Network.login(usernameField.getText(), Crypto.md5(new String(passwordField.getPassword())));
 				}
 			}
@@ -97,6 +96,12 @@ public class LoginPane {
 		frmLoginCryptochat.getContentPane().add(btnLogin);
 		
 		JButton btnSettings = new JButton("Settings");
+		btnSettings.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				SettingsPane.showSettings();
+			}
+		});
 		btnSettings.setBounds(247, 106, 117, 29);
 		frmLoginCryptochat.getContentPane().add(btnSettings);
 		
