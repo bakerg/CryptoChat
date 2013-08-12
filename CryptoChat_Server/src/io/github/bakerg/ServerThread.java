@@ -31,13 +31,15 @@ public class ServerThread implements Runnable{
 					}
 				}catch (java.io.EOFException e){}
 			}
+			out.close();
+			in.close();
 		} catch (IOException e) {
 			System.out.println("Failed to create IO streams!");
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}	
 	}
 
 }
