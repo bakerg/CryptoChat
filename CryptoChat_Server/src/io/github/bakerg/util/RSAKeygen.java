@@ -48,17 +48,15 @@ public class RSAKeygen {
 		}
 		
 	}
-	public static void saveToFile(String fileName,
-			  BigInteger mod, BigInteger exp) throws IOException {
-			  ObjectOutputStream oout = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fileName)));
-			  try {
-			    oout.writeObject(mod);
-			    oout.writeObject(exp);
-			  } catch (Exception e) {
-			    throw new IOException("Unexpected error", e);
-			  } finally {
-			    oout.close();
-			  }
-			}
-
+	public static void saveToFile(String fileName, BigInteger mod, BigInteger exp) throws IOException {
+		ObjectOutputStream oout = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fileName)));
+		try {
+			oout.writeObject(mod);
+			oout.writeObject(exp);
+		} catch (Exception e) {
+			throw new IOException("Unexpected error", e);
+		} finally {
+			oout.close();
+		}
+	}
 }
