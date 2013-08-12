@@ -3,6 +3,7 @@ package io.github.bakerg;
 import io.github.bakerg.packets.PacketCloseConnection;
 import io.github.bakerg.packets.PacketCreateAccount;
 import io.github.bakerg.packets.PacketCreateAccountResponse;
+import io.github.bakerg.packets.PacketEncrypted;
 import io.github.bakerg.packets.PacketLogin;
 import io.github.bakerg.packets.PacketLoginResponse;
 
@@ -57,7 +58,7 @@ public class Network {
 	}
 	public static boolean createAccount(String username, String passwordHash) {
 		try {
-			out.writeObject(new PacketCreateAccount(username, passwordHash));
+			out.writeObject(new PacketEncrypted((Crypto.RSAEncrypt(Crypto.serialize(new PacketCreateAccount(username, passwordHash))))));
 			Object response;
 			response = in.readObject();
 			if(response != null){
