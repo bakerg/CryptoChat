@@ -48,7 +48,7 @@ public class LoginPane {
 		frmLoginCryptochat = new JFrame();
 		frmLoginCryptochat.setTitle("Login - CryptoChat");
 		frmLoginCryptochat.setBounds(100, 100, 600, 172);
-		frmLoginCryptochat.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmLoginCryptochat.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmLoginCryptochat.getContentPane().setLayout(null);
 		
 		JLabel lblUsername = new JLabel("Username");
@@ -88,7 +88,10 @@ public class LoginPane {
 			public void mouseClicked(MouseEvent e) {
 				if(passwordField.getPassword() != null && usernameField.getText() != null){
 					Network.connect();
-					Network.login(usernameField.getText(), Crypto.md5(new String(passwordField.getPassword())));
+					if(Network.login(usernameField.getText(), Crypto.md5(new String(passwordField.getPassword())))){
+						MessagesPane.showMessagesPane(usernameField.getText());
+						frmLoginCryptochat.dispose();
+					}
 				}
 			}
 		});
