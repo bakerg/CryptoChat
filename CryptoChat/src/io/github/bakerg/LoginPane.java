@@ -112,5 +112,10 @@ public class LoginPane {
 		lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogin.setBounds(270, 6, 60, 16);
 		frmLoginCryptochat.getContentPane().add(lblLogin);
+		
+		JLabel lblV = new JLabel("v 0.001");
+		lblV.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblV.setBounds(533, 6, 61, 16);
+		frmLoginCryptochat.getContentPane().add(lblV);
 	}
 }
