@@ -22,33 +22,36 @@ public class LoginHandler {
 		}
 	}
 	public static boolean checkLogin(PacketLogin login){
-		ResultSet result;
-		try {
-			result = statement.executeQuery("SELECT password FROM accounts WHERE username = '"+login.username+"';");
-			result.first();
-			if(login.passwordHash.equals(result.getString(1))){
-				System.out.println("User "+login.username+" logged in!");
-				return true;
+		if(isValid(login.username)){
+			ResultSet result;
+			try {
+				result = statement.executeQuery("SELECT password FROM accounts WHERE username = '"+login.username+"';");
+				result.first();
+				if(login.passwordHash.equals(result.getString(1))){
+					System.out.println("User '"+login.username+"' logged in!");
+					return true;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		return false;
 	}
 	
 	public static boolean checkUsername(PacketCreateAccount login){
-		ResultSet result;
-		System.out.println("Checking for matches");
-		try {
-			result = statement.executeQuery("SELECT * FROM accounts WHERE username = '"+login.username+"';");
-			if(result.next() == false){
-				System.out.println("name is free");
-				return true;
+		if(isValid(login.username)){
+			ResultSet result;
+			try {
+				result = statement.executeQuery("SELECT * FROM accounts WHERE username = '"+login.username+"';");
+				if(result.next() == false){
+					return true;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		System.out.println("Account creation failed for username '"+login.username+"'");
 		return false;
 	}
 	
@@ -60,6 +63,13 @@ public class LoginHandler {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public static boolean isValid(String username){
+		if(!username.contains(";")){
+			return true;
 		}
 		return false;
 	}
