@@ -16,7 +16,7 @@ public class LoginPane {
 	private JFrame frmLoginCryptochat;
 	private JTextField usernameField;
 	private JPasswordField passwordField;
-	private static final String serverAddress = ""; //Set the server address here
+	private static final String serverAddress = "localhost"; //Set the server address here
 
 	/**
 	 * Launch the application.

@@ -34,20 +34,18 @@ public class Network {
 		try {
 			out.writeObject(new PacketLogin(username, passwordHash));
 			Object response;
-			while(true){
-				response = in.readObject();
-				if(response != null){
-					if(response instanceof PacketLoginResponse){
-						PacketLoginResponse loginResponse = (PacketLoginResponse)response;
-						if(loginResponse.loginSuccessful){
-							System.out.println("Login Successful!");
-							out.writeObject(new PacketCloseConnection());
-							break;
-						}else{
-							System.out.println("Login Failed!");
-							out.writeObject(new PacketCloseConnection());
-							break;
-						}
+			response = in.readObject();
+			if(response != null){
+				if(response instanceof PacketLoginResponse){
+					PacketLoginResponse loginResponse = (PacketLoginResponse)response;
+					if(loginResponse.loginSuccessful){
+						System.out.println("Login Successful!");
+						out.writeObject(new PacketCloseConnection());
+
+					}else{
+						System.out.println("Login Failed!");
+						out.writeObject(new PacketCloseConnection());
+
 					}
 				}
 			}
@@ -64,7 +62,7 @@ public class Network {
 		try {
 			out.writeObject(new PacketCreateAccount(username, passwordHash));
 			Object response;
-			while(true){
+			//while(true){
 				response = in.readObject();
 				if(response != null){
 					if(response instanceof PacketCreateAccountResponse){
@@ -72,15 +70,15 @@ public class Network {
 						if(accountResponse.creationSuccessful){
 							System.out.println("Account Creation Successful!");
 							out.writeObject(new PacketCloseConnection());
-							break;
+							//break;
 						}else{
 							System.out.println("Account Creation Failed!");
 							out.writeObject(new PacketCloseConnection());
-							break;
+							//break;
 						}
 					}
 				}
-			}
+			//}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

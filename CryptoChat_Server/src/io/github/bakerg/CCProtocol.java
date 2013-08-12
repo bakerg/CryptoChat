@@ -14,7 +14,6 @@ public class CCProtocol {
 			return new PacketLoginResponse(false);
 		}
 		else if(object instanceof PacketCreateAccount){
-			System.out.println("Right packet");
 			if(LoginHandler.checkUsername((PacketCreateAccount)object)){
 				System.out.println("uname available");
 				if(LoginHandler.addUser((PacketCreateAccount)object)){
@@ -22,7 +21,7 @@ public class CCProtocol {
 					return new PacketCreateAccountResponse(true);
 				}
 			}
-			return new PacketLoginResponse(false);
+			return new PacketCreateAccountResponse(false);
 		}
 		return null;
 	}
