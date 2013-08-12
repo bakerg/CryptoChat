@@ -32,7 +32,7 @@ public class Network {
 	}
 	public static boolean login(String username, String passwordHash){
 		try {
-			out.writeObject(new PacketLogin(username, passwordHash));
+			out.writeObject(new PacketEncrypted((Crypto.RSAEncrypt(Crypto.serialize(new PacketLogin(username, passwordHash))))));
 			Object response;
 			response = in.readObject();
 			if(response != null){
