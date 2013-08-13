@@ -26,9 +26,8 @@ public class ConfigureDatabase {
 		connectToDb();
 		try {
 			statement.execute("CREATE DB im;");
-			statement.execute("CREATE TABLE accounts(username varchar(64), password varchar(64));");
+			statement.execute("CREATE TABLE accounts(username varchar(64), password varchar(64), indentifier varchar(32));");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Database successfully configured");

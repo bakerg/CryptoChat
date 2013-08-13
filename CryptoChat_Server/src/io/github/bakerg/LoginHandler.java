@@ -21,21 +21,24 @@ public class LoginHandler {
 			e.printStackTrace();
 		}
 	}
-	public static boolean checkLogin(PacketLogin login){
+	
+	public static String checkLogin(PacketLogin login){
 		if(isValid(login.username)){
 			ResultSet result;
 			try {
 				result = statement.executeQuery("SELECT password FROM accounts WHERE username = '"+login.username+"';");
 				result.first();
 				if(login.passwordHash.equals(result.getString(1))){
+					String identifier = Crypto.createIdentifier();
+					statement.execute("UPDATE accounts SET identifier = '"+identifier+"' WHERE username = '"+login.username+"'; ");
 					System.out.println("User '"+login.username+"' logged in!");
-					return true;
+					return identifier;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		return false;
+		return "fail";
 	}
 	
 	public static boolean checkUsername(PacketCreateAccount login){

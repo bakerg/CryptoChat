@@ -19,6 +19,7 @@ public class Network {
 	private static ObjectOutputStream out = null;
 	private static ObjectInputStream in = null;
 	private static String serverAddress = "localhost";
+	private static String identifier;
 	public static void connect(){
 		try {
 			socket = new Socket(serverAddress, 1234);
@@ -39,6 +40,7 @@ public class Network {
 				if(response instanceof PacketLoginResponse){
 					PacketLoginResponse loginResponse = (PacketLoginResponse)response;
 					if(loginResponse.loginSuccessful){
+						identifier = loginResponse.identifier;
 						out.writeObject(new PacketCloseConnection());
 						return true;
 					}else{

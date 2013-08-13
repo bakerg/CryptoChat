@@ -13,10 +13,11 @@ public class CCProtocol {
 			return (handleInput(Crypto.deserialize(Crypto.RSADecrypt(enpack.contents))));
 		}
 		else if(object instanceof PacketLogin){
-			if(LoginHandler.checkLogin((PacketLogin)object)){
-				return new PacketLoginResponse(true);
+			String identifier = LoginHandler.checkLogin((PacketLogin)object);
+			if(!identifier.equals("fail")){
+				return new PacketLoginResponse(true, identifier);
 			}
-			return new PacketLoginResponse(false);
+			return new PacketLoginResponse(false, null);
 		}
 		else if(object instanceof PacketCreateAccount){
 			if(LoginHandler.checkUsername((PacketCreateAccount)object)){

@@ -13,6 +13,8 @@ import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -53,19 +55,14 @@ public class Crypto {
 			cipher.init(Cipher.ENCRYPT_MODE, k);
 			return cipher.doFinal(bytes);
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidKeyException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalBlockSizeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (BadPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -79,22 +76,16 @@ public class Crypto {
 			cipher.init(Cipher.DECRYPT_MODE, k, new IvParameterSpec(iv));
 			return cipher.doFinal(bytes);
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidKeyException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalBlockSizeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (BadPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidAlgorithmParameterException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -232,5 +223,49 @@ public class Crypto {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static KeyPair genRSAKeyPair(){
+		KeyPairGenerator kpg = null; 
+		try {
+			kpg = KeyPairGenerator.getInstance("RSA");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		kpg.initialize(2048);
+		return kpg.genKeyPair();
+	}
+	
+	public static RSAPublicKeySpec getRSAPublicKey(KeyPair kp){
+		KeyFactory fact = null;
+		try {
+			fact = KeyFactory.getInstance("RSA");
+			return fact.getKeySpec(kp.getPublic(), RSAPublicKeySpec.class);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (InvalidKeySpecException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static RSAPrivateKeySpec getRSAPrivateKey(KeyPair kp){
+		KeyFactory fact = null;
+		try {
+			fact = KeyFactory.getInstance("RSA");
+			return fact.getKeySpec(kp.getPrivate(), RSAPrivateKeySpec.class);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (InvalidKeySpecException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static String createIdentifier(){
+		SecureRandom rand = new SecureRandom();
+		byte[] bytes = new byte[16];
+		rand.nextBytes(bytes);
+		return bytesToHex(bytes);
 	}
 }
