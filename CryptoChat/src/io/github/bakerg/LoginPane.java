@@ -75,7 +75,7 @@ public class LoginPane {
 			public void mouseClicked(MouseEvent e) {
 				if(passwordField.getPassword() != null && usernameField.getText() != null){
 					Network.connect();
-					Network.createAccount(usernameField.getText(), Crypto.md5(new String(passwordField.getPassword())));
+					Network.createAccount(usernameField.getText(), Crypto.sha256(new String(passwordField.getPassword())));
 				}
 			}
 		});
@@ -88,7 +88,7 @@ public class LoginPane {
 			public void mouseClicked(MouseEvent e) {
 				if(passwordField.getPassword() != null && usernameField.getText() != null){
 					Network.connect();
-					if(Network.login(usernameField.getText(), Crypto.md5(new String(passwordField.getPassword())))){
+					if(Network.login(usernameField.getText(), Crypto.sha256(new String(passwordField.getPassword())))){
 						MessagesPane.showMessagesPane(usernameField.getText());
 						frmLoginCryptochat.dispose();
 					}

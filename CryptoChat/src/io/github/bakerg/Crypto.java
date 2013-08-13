@@ -32,10 +32,10 @@ import javax.crypto.spec.SecretKeySpec;
 public class Crypto {
 	private static MessageDigest md;
 	final protected static char[] hexArray = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
-	public static String md5(String input){
+	public static String sha256(String input){
 		byte[] outbytes = null;
 		try {
-			md = MessageDigest.getInstance("MD5");
+			md = MessageDigest.getInstance("SHA-256");
 			outbytes = md.digest(input.getBytes("UTF-8"));
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();

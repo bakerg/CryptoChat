@@ -20,9 +20,7 @@ public class CCProtocol {
 		}
 		else if(object instanceof PacketCreateAccount){
 			if(LoginHandler.checkUsername((PacketCreateAccount)object)){
-				System.out.println("uname available");
 				if(LoginHandler.addUser((PacketCreateAccount)object)){
-					System.out.println("account made");
 					return new PacketCreateAccountResponse(true);
 				}
 			}
