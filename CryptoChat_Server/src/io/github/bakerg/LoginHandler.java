@@ -10,9 +10,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class LoginHandler {
-	static Connection connection = null;
-	static Statement statement = null;
-	public static void connectToDb(){
+	 Connection connection = null;
+	 Statement statement = null;
+	 
+	 public LoginHandler(){
+		 
+	 }
+	 
+	public  void connectToDb(){
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost/im", "default", "");
 			statement = connection.createStatement(); 
@@ -22,7 +27,7 @@ public class LoginHandler {
 		}
 	}
 	
-	public static String checkLogin(PacketLogin login){
+	public  String checkLogin(PacketLogin login){
 		if(isValid(login.username)){
 			ResultSet result;
 			try {
@@ -41,7 +46,7 @@ public class LoginHandler {
 		return "fail";
 	}
 	
-	public static boolean checkUsername(PacketCreateAccount login){
+	public  boolean checkUsername(PacketCreateAccount login){
 		if(isValid(login.username)){
 			ResultSet result;
 			try {
@@ -58,7 +63,7 @@ public class LoginHandler {
 		return false;
 	}
 	
-	public static boolean addUser(PacketCreateAccount login){
+	public  boolean addUser(PacketCreateAccount login){
 		try {
 			statement.execute("INSERT INTO accounts(username, password) VALUES ('"+login.username+"','"+login.passwordHash+"');");
 			System.out.println("Created account for user "+login.username);
@@ -70,7 +75,7 @@ public class LoginHandler {
 		return false;
 	}
 	
-	public static boolean isValid(String username){
+	public  boolean isValid(String username){
 		if(!username.contains(";")){
 			return true;
 		}

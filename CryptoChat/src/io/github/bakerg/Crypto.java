@@ -68,6 +68,30 @@ public class Crypto {
 		return null;
 	}
 	
+	public static byte[] AESEncrypt(byte[] bytes, byte[] key, byte[] iv){
+		Cipher cipher = null;
+		try {
+			cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+			SecretKeySpec k = new SecretKeySpec(key, "AES");
+			cipher.init(Cipher.ENCRYPT_MODE, k, new IvParameterSpec(iv));
+			return cipher.doFinal(bytes);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			e.printStackTrace();
+		} catch (InvalidAlgorithmParameterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public static byte[] AESDecrypt(byte[] bytes, byte[] key, byte[] iv){
 		Cipher cipher = null;
 		try {
@@ -129,8 +153,46 @@ public class Crypto {
 		return null;
 	}
 	
+	public static byte[] RSAEncrypt(byte[] object, PublicKey key){
+		try {
+			Cipher cipher = Cipher.getInstance("RSA");
+			cipher.init(Cipher.ENCRYPT_MODE, key);
+			return cipher.doFinal(object);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {			
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {			
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {			
+			e.printStackTrace();
+		} catch (BadPaddingException e) {			
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public static byte[] RSADecrypt(byte[] object){
 		PrivateKey key = readPrivateKey();
+		try {
+			Cipher cipher = Cipher.getInstance("RSA");
+			cipher.init(Cipher.DECRYPT_MODE, key);
+			return cipher.doFinal(object);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {			
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {			
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {			
+			e.printStackTrace();
+		} catch (BadPaddingException e) {			
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static byte[] RSADecrypt(byte[] object, PrivateKey key){
 		try {
 			Cipher cipher = Cipher.getInstance("RSA");
 			cipher.init(Cipher.DECRYPT_MODE, key);
@@ -236,11 +298,11 @@ public class Crypto {
 		return kpg.genKeyPair();
 	}
 	
-	public static RSAPublicKeySpec getRSAPublicKey(KeyPair kp){
+	public static PublicKey getRSAPublicKey(KeyPair kp){
 		KeyFactory fact = null;
 		try {
 			fact = KeyFactory.getInstance("RSA");
-			return fact.getKeySpec(kp.getPublic(), RSAPublicKeySpec.class);
+			return fact.generatePublic(fact.getKeySpec(kp.getPublic(), RSAPublicKeySpec.class)); 
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {
@@ -249,11 +311,11 @@ public class Crypto {
 		return null;
 	}
 	
-	public static RSAPrivateKeySpec getRSAPrivateKey(KeyPair kp){
+	public static PrivateKey getRSAPrivateKey(KeyPair kp){
 		KeyFactory fact = null;
 		try {
 			fact = KeyFactory.getInstance("RSA");
-			return fact.getKeySpec(kp.getPrivate(), RSAPrivateKeySpec.class);
+			return fact.generatePrivate(fact.getKeySpec(kp.getPrivate(), RSAPrivateKeySpec.class));
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {
@@ -267,5 +329,12 @@ public class Crypto {
 		byte[] bytes = new byte[16];
 		rand.nextBytes(bytes);
 		return bytesToHex(bytes);
+	}
+	
+	public static byte[] generateIV(){
+		SecureRandom rand = new SecureRandom();
+		byte[] ivbytes = new byte[16];
+		rand.nextBytes(ivbytes);
+		return ivbytes;
 	}
 }

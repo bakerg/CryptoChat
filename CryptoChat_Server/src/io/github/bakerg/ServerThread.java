@@ -9,8 +9,10 @@ import java.net.Socket;
 
 public class ServerThread implements Runnable{
 	private Socket socket;
+	CCProtocol ccprotocol;
 	public ServerThread(Socket clientSocket){
 		this.socket = clientSocket;
+		ccprotocol = new CCProtocol();
 	}
 	@Override
 	public void run() {
@@ -20,6 +22,7 @@ public class ServerThread implements Runnable{
 		try {
 			out = new ObjectOutputStream(this.socket.getOutputStream());
 			in = new ObjectInputStream(this.socket.getInputStream());
+			ccprotocol.loginHandler.connectToDb();
 			while(true){
 				try{
 					request = in.readObject();
@@ -27,7 +30,7 @@ public class ServerThread implements Runnable{
 						if(request instanceof PacketCloseConnection){
 							break;
 						}
-						out.writeObject(CCProtocol.handleInput(request));
+						out.writeObject(ccprotocol.handleInput(request));
 					}
 				}catch (java.io.EOFException e){}
 			}
