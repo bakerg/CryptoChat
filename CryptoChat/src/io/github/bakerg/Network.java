@@ -8,12 +8,15 @@ import io.github.bakerg.packets.PacketCreateAccountResponse;
 import io.github.bakerg.packets.PacketEncrypted;
 import io.github.bakerg.packets.PacketLogin;
 import io.github.bakerg.packets.PacketLoginResponse;
+import io.github.bakerg.packets.PacketMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Date;
+import java.sql.Timestamp;
 import java.util.Arrays;
 
 public class Network {
@@ -63,11 +66,9 @@ public class Network {
 					response = Crypto.deserialize(Crypto.AESDecrypt(((PacketEncrypted) response).contents, AESKey, iv));
 				}
 				if(response instanceof PacketLoginResponse){
-					System.out.println("Login Response!");
 					PacketLoginResponse loginResponse = (PacketLoginResponse)response;
 					if(loginResponse.loginSuccessful){
 						identifier = loginResponse.identifier;
-						System.out.println(identifier);
 						out.writeObject(new PacketCloseConnection());
 						return true;
 					}else{
@@ -110,6 +111,11 @@ public class Network {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		return false;
+	}
+	
+	public static boolean sendMessage(String message){
+		writeEncryptedPacket(new PacketMessage(identifier, new Timestamp(new Date().getTime()), Crypto.AESEncrypt(Crypto.serialize(message), AESKey, iv), identifier), false);
 		return false;
 	}
 	

@@ -12,6 +12,7 @@ import java.sql.Statement;
 public class LoginHandler {
 	 Connection connection = null;
 	 Statement statement = null;
+	 String username;
 	 
 	 public LoginHandler(){
 		 try {
@@ -32,6 +33,7 @@ public class LoginHandler {
 				if(login.passwordHash.equals(result.getString(1))){
 					String identifier = Crypto.createIdentifier();
 					statement.execute("UPDATE accounts SET identifier = '"+identifier+"' WHERE username = '"+login.username+"'; ");
+					this.username = login.username;
 					System.out.println("User '"+login.username+"' logged in!");
 					return identifier;
 				}
@@ -40,6 +42,15 @@ public class LoginHandler {
 			}
 		}
 		return "fail";
+	}
+	
+	public void logout(){
+		try {
+			statement.execute("UPDATE accounts SET identifier = 'null' WHERE username = '"+username+"';");
+			System.out.println("Logged user "+username+" out");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public  boolean checkUsername(PacketCreateAccount login){

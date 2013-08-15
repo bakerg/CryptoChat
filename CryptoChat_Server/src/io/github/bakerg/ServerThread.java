@@ -27,6 +27,7 @@ public class ServerThread implements Runnable{
 					request = in.readObject();
 					if(request != null){
 						if(request instanceof PacketCloseConnection){
+							ccprotocol.loginHandler.logout();
 							break;
 						}
 						out.writeObject(ccprotocol.handleInput(request));
