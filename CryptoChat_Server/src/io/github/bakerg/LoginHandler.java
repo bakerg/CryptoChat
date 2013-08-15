@@ -14,18 +14,14 @@ public class LoginHandler {
 	 Statement statement = null;
 	 
 	 public LoginHandler(){
-		 
+		 try {
+				connection = DriverManager.getConnection("jdbc:mysql://localhost/im", "default", "");
+				statement = connection.createStatement(); 
+			} catch (SQLException e) {
+				System.out.println("Connection to sql server failed!");
+				e.printStackTrace();
+			}
 	 }
-	 
-	public  void connectToDb(){
-		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost/im", "default", "");
-			statement = connection.createStatement(); 
-		} catch (SQLException e) {
-			System.out.println("Connection to sql server failed!");
-			e.printStackTrace();
-		}
-	}
 	
 	public  String checkLogin(PacketLogin login){
 		if(isValid(login.username)){

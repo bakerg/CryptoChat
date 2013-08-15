@@ -60,7 +60,7 @@ public class Network {
 			response = in.readObject();
 			if(response != null){
 				if(response instanceof PacketEncrypted){
-					response = Crypto.serialize(Crypto.AESDecrypt(((PacketEncrypted) response).contents, AESKey, iv));
+					response = Crypto.deserialize(Crypto.AESDecrypt(((PacketEncrypted) response).contents, AESKey, iv));
 				}
 				if(response instanceof PacketLoginResponse){
 					System.out.println("Login Response!");

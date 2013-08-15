@@ -38,7 +38,7 @@ public class CCProtocol {
 		else if(object instanceof PacketLogin){
 			String identifier = loginHandler.checkLogin((PacketLogin)object);
 			if(!identifier.equals("fail")){
-				return new PacketEncrypted(Crypto.AESEncrypt(Crypto.serialize(new PacketLoginResponse(true, identifier)), AESKey), false);
+				return new PacketEncrypted(Crypto.AESEncrypt(Crypto.serialize(new PacketLoginResponse(true, identifier)), AESKey, iv), false);
 			}
 			return new PacketLoginResponse(false, null);
 		}

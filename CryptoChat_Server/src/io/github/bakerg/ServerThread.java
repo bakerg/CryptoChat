@@ -22,7 +22,6 @@ public class ServerThread implements Runnable{
 		try {
 			out = new ObjectOutputStream(this.socket.getOutputStream());
 			in = new ObjectInputStream(this.socket.getInputStream());
-			ccprotocol.loginHandler.connectToDb();
 			while(true){
 				try{
 					request = in.readObject();
