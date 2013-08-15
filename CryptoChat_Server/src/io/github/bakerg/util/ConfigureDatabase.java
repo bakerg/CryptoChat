@@ -14,7 +14,7 @@ public class ConfigureDatabase {
 	
 	public static void connectToDb(){
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost", user, password);
+			connection = DriverManager.getConnection(serverURL, user, password);
 			statement = connection.createStatement(); 
 		} catch (SQLException e) {
 			System.out.println("Connection to sql server failed!");
@@ -27,6 +27,7 @@ public class ConfigureDatabase {
 		try {
 			statement.execute("CREATE DB im;");
 			statement.execute("CREATE TABLE accounts(username varchar(64), password varchar(64), identifier varchar(32));");
+			statement.execute("CREATE TABLE messages(user1 varchar(64), user2 varchar(64), messages longblob);");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
